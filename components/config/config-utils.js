@@ -73,7 +73,7 @@ function getDefaultKeyValueConfig() {
     .then(instanceVars => {
       let env = Object.assign(instanceVars, process.env);
       return {
-        web3Endpoint: env.WEB3_ENDPOINT || 'http://localhost:8545',
+        web3Endpoint: env.WEB3_ENDPOINT || 'https://dappnet-api.skalenodes.com/v1/elegant-ancha',
         ipfsReadEndpoint: env.IPFS_READ_ENDPOINT || 'http://localhost:8080',
         ipfsAddEndpoint: env.IPFS_ADD_ENDPOINT || 'http://localhost:5001',
         mongoEndpoint: env.MONGO_ENDPOINT || "mongodb://localhost",
