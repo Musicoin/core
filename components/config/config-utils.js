@@ -89,7 +89,8 @@ function getDefaultKeyValueConfig() {
         orbiterEndpoint: env.ORBITER_ENDPOINT || "http://orbiter.musicoin.org/internal",
         maxCoinsPerPlay: env.MAX_COINS_PER_PLAY || 1,
         rewardMax: env.REWARD_MAX || 250,
-        rewardMin: env.REWARD_MIN || 50
+        rewardMin: env.REWARD_MIN || 50,
+        isDev: true
       };
     });
 }

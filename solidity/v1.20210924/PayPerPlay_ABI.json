@@ -1,0 +1,719 @@
+[
+  {
+	"inputs": [
+	  {
+		"internalType": "address",
+		"name": "_owner",
+		"type": "address"
+	  },
+	  {
+		"internalType": "string",
+		"name": "_title",
+		"type": "string"
+	  },
+	  {
+		"internalType": "string",
+		"name": "_artistName",
+		"type": "string"
+	  },
+	  {
+		"internalType": "address",
+		"name": "_artistProfileAddress",
+		"type": "address"
+	  },
+	  {
+		"internalType": "uint256",
+		"name": "_musicPerPlay",
+		"type": "uint256"
+	  },
+	  {
+		"internalType": "string",
+		"name": "_resourceUrl",
+		"type": "string"
+	  },
+	  {
+		"internalType": "bytes32",
+		"name": "_contentType",
+		"type": "bytes32"
+	  },
+	  {
+		"internalType": "string",
+		"name": "_imageUrl",
+		"type": "string"
+	  },
+	  {
+		"internalType": "string",
+		"name": "_metadataUrl",
+		"type": "string"
+	  },
+	  {
+		"internalType": "address[]",
+		"name": "_contributors",
+		"type": "address[]"
+	  },
+	  {
+		"internalType": "uint256[]",
+		"name": "_contributorShares",
+		"type": "uint256[]"
+	  }
+	],
+	"stateMutability": "nonpayable",
+	"type": "constructor"
+  },
+  {
+	"anonymous": false,
+	"inputs": [
+	  {
+		"indexed": false,
+		"internalType": "string",
+		"name": "oldArtistName",
+		"type": "string"
+	  },
+	  {
+		"indexed": false,
+		"internalType": "string",
+		"name": "newArtistName",
+		"type": "string"
+	  }
+	],
+	"name": "artistNameUpdateEvent",
+	"type": "event"
+  },
+  {
+	"anonymous": false,
+	"inputs": [
+	  {
+		"indexed": false,
+		"internalType": "address",
+		"name": "oldArtistAddress",
+		"type": "address"
+	  },
+	  {
+		"indexed": false,
+		"internalType": "address",
+		"name": "newArtistAddress",
+		"type": "address"
+	  }
+	],
+	"name": "artistProfileAddressUpdateEvent",
+	"type": "event"
+  },
+  {
+	"inputs": [],
+	"name": "distributeBalance",
+	"outputs": [],
+	"stateMutability": "nonpayable",
+	"type": "function"
+  },
+  {
+	"anonymous": false,
+	"inputs": [
+	  {
+		"indexed": false,
+		"internalType": "string",
+		"name": "oldImage",
+		"type": "string"
+	  },
+	  {
+		"indexed": false,
+		"internalType": "string",
+		"name": "newImage",
+		"type": "string"
+	  }
+	],
+	"name": "imageUpdateEvent",
+	"type": "event"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "bool",
+		"name": "_distributeBalanceFirst",
+		"type": "bool"
+	  }
+	],
+	"name": "kill",
+	"outputs": [],
+	"stateMutability": "nonpayable",
+	"type": "function"
+  },
+  {
+	"anonymous": false,
+	"inputs": [
+	  {
+		"indexed": false,
+		"internalType": "uint256",
+		"name": "version",
+		"type": "uint256"
+	  }
+	],
+	"name": "licenseUpdateEvent",
+	"type": "event"
+  },
+  {
+	"anonymous": false,
+	"inputs": [
+	  {
+		"indexed": false,
+		"internalType": "string",
+		"name": "oldMetadata",
+		"type": "string"
+	  },
+	  {
+		"indexed": false,
+		"internalType": "string",
+		"name": "newMetadata",
+		"type": "string"
+	  }
+	],
+	"name": "metadataUpdateEvent",
+	"type": "event"
+  },
+  {
+	"inputs": [],
+	"name": "play",
+	"outputs": [],
+	"stateMutability": "payable",
+	"type": "function"
+  },
+  {
+	"anonymous": false,
+	"inputs": [
+	  {
+		"indexed": false,
+		"internalType": "uint256",
+		"name": "plays",
+		"type": "uint256"
+	  }
+	],
+	"name": "playEvent",
+	"type": "event"
+  },
+  {
+	"anonymous": false,
+	"inputs": [
+	  {
+		"indexed": false,
+		"internalType": "string",
+		"name": "oldResource",
+		"type": "string"
+	  },
+	  {
+		"indexed": false,
+		"internalType": "string",
+		"name": "newResource",
+		"type": "string"
+	  }
+	],
+	"name": "resourceUpdateEvent",
+	"type": "event"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "uint256",
+		"name": "_tipAmount",
+		"type": "uint256"
+	  }
+	],
+	"name": "tip",
+	"outputs": [],
+	"stateMutability": "payable",
+	"type": "function"
+  },
+  {
+	"anonymous": false,
+	"inputs": [
+	  {
+		"indexed": false,
+		"internalType": "uint256",
+		"name": "plays",
+		"type": "uint256"
+	  },
+	  {
+		"indexed": false,
+		"internalType": "uint256",
+		"name": "tipCount",
+		"type": "uint256"
+	  }
+	],
+	"name": "tipEvent",
+	"type": "event"
+  },
+  {
+	"anonymous": false,
+	"inputs": [
+	  {
+		"indexed": false,
+		"internalType": "string",
+		"name": "oldTitle",
+		"type": "string"
+	  },
+	  {
+		"indexed": false,
+		"internalType": "string",
+		"name": "newTitle",
+		"type": "string"
+	  }
+	],
+	"name": "titleUpdateEvent",
+	"type": "event"
+  },
+  {
+	"anonymous": false,
+	"inputs": [
+	  {
+		"indexed": false,
+		"internalType": "address",
+		"name": "oldOwner",
+		"type": "address"
+	  },
+	  {
+		"indexed": false,
+		"internalType": "address",
+		"name": "newOwner",
+		"type": "address"
+	  }
+	],
+	"name": "transferEvent",
+	"type": "event"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "address",
+		"name": "newOwner",
+		"type": "address"
+	  }
+	],
+	"name": "transferOwnership",
+	"outputs": [],
+	"stateMutability": "nonpayable",
+	"type": "function"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "address",
+		"name": "newArtistAddress",
+		"type": "address"
+	  }
+	],
+	"name": "updateArtistAddress",
+	"outputs": [],
+	"stateMutability": "nonpayable",
+	"type": "function"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "string",
+		"name": "newArtistName",
+		"type": "string"
+	  }
+	],
+	"name": "updateArtistName",
+	"outputs": [],
+	"stateMutability": "nonpayable",
+	"type": "function"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "string",
+		"name": "newImageUrl",
+		"type": "string"
+	  }
+	],
+	"name": "updateImageUrl",
+	"outputs": [],
+	"stateMutability": "nonpayable",
+	"type": "function"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "uint256",
+		"name": "_musicPerPlay",
+		"type": "uint256"
+	  },
+	  {
+		"internalType": "address[]",
+		"name": "_contributors",
+		"type": "address[]"
+	  },
+	  {
+		"internalType": "uint256[]",
+		"name": "_contributorShares",
+		"type": "uint256[]"
+	  }
+	],
+	"name": "updateLicense",
+	"outputs": [],
+	"stateMutability": "nonpayable",
+	"type": "function"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "string",
+		"name": "newMetadataUrl",
+		"type": "string"
+	  }
+	],
+	"name": "updateMetadataUrl",
+	"outputs": [],
+	"stateMutability": "nonpayable",
+	"type": "function"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "contract MusicFactory",
+		"name": "_musicFactory",
+		"type": "address"
+	  }
+	],
+	"name": "updateMusicFactory",
+	"outputs": [],
+	"stateMutability": "nonpayable",
+	"type": "function"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "string",
+		"name": "newResourceUrl",
+		"type": "string"
+	  }
+	],
+	"name": "updateResourceUrl",
+	"outputs": [],
+	"stateMutability": "nonpayable",
+	"type": "function"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "string",
+		"name": "newTitle",
+		"type": "string"
+	  }
+	],
+	"name": "updateTitle",
+	"outputs": [],
+	"stateMutability": "nonpayable",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "artistName",
+	"outputs": [
+	  {
+		"internalType": "string",
+		"name": "",
+		"type": "string"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "artistProfileAddress",
+	"outputs": [
+	  {
+		"internalType": "address",
+		"name": "",
+		"type": "address"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "contentType",
+	"outputs": [
+	  {
+		"internalType": "bytes32",
+		"name": "",
+		"type": "bytes32"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "contractVersion",
+	"outputs": [
+	  {
+		"internalType": "string",
+		"name": "",
+		"type": "string"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"name": "contributors",
+	"outputs": [
+	  {
+		"internalType": "address",
+		"name": "",
+		"type": "address"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"name": "contributorShares",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "createdBy",
+	"outputs": [
+	  {
+		"internalType": "address",
+		"name": "",
+		"type": "address"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "getContributorsLength",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "getMusicFactoryAddress",
+	"outputs": [
+	  {
+		"internalType": "contract MusicFactory",
+		"name": "",
+		"type": "address"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "imageUrl",
+	"outputs": [
+	  {
+		"internalType": "string",
+		"name": "",
+		"type": "string"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "licenseVersion",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "metadataUrl",
+	"outputs": [
+	  {
+		"internalType": "string",
+		"name": "",
+		"type": "string"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "metadataVersion",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "musicFactory",
+	"outputs": [
+	  {
+		"internalType": "contract MusicFactory",
+		"name": "",
+		"type": "address"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "musicPerPlay",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "owner",
+	"outputs": [
+	  {
+		"internalType": "address",
+		"name": "",
+		"type": "address"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "playCount",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "resourceUrl",
+	"outputs": [
+	  {
+		"internalType": "string",
+		"name": "",
+		"type": "string"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "tipCount",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "title",
+	"outputs": [
+	  {
+		"internalType": "string",
+		"name": "",
+		"type": "string"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "totalEarned",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "totalShares",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  },
+  {
+	"inputs": [],
+	"name": "totalTipped",
+	"outputs": [
+	  {
+		"internalType": "uint256",
+		"name": "",
+		"type": "uint256"
+	  }
+	],
+	"stateMutability": "view",
+	"type": "function"
+  }
+]
