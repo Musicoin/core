@@ -73,17 +73,11 @@ Web3Reader.prototype.getContractDefinition = function(type, version) {
 Web3Reader.prototype.loadLicense = function(licenseAddress) {
   console.log('Loading license: ' + licenseAddress);
   const contract = new this.web3.eth.Contract(pppAbi, licenseAddress);
-  console.log('contract version');
-  contract.methods.artistName().call()
-      .then((result) => {
-        console.log(result);
-      });
 
   // load the oldest supported version and extract the actual version from the contract
   return Promise.promisify(contract.methods.contractVersion().call)()
       .bind(this)
       .then(function(version) {
-        console.log(version);
         const licensePromise = this.loadContract(licenseAddress, pppAbi);
         // extracting the arrays takes some extra work
         const c = Promise.promisifyAll(contract);
@@ -99,8 +93,6 @@ Web3Reader.prototype.loadLicense = function(licenseAddress) {
               // licenseObject.coinsPerPlay = this.web3.utils.fromWei(licenseObject.weiPerPlay, 'ether');
               // licenseObject.totalEarnedCoins = this.web3.utils.fromWei(licenseObject.totalEarned, 'ether');
               licenseObject.address = licenseAddress;
-
-              console.log(licenseObject);
               return licenseObject;
             }.bind(this));
       });
@@ -194,7 +186,6 @@ Web3Reader.prototype.loadContractAndFields = function(address, abi, fields, outp
 
   const promises = fields.map(f => {
     const name = f.name;
-    console.log(name);
     if (c.methods[name]) return c.methods[name]().call().then((result) => {
       return result;
     });
@@ -212,14 +203,12 @@ Web3Reader.prototype.loadContractAndFields = function(address, abi, fields, outp
     fields.forEach((f, idx) => {
       const name = f.name;
       let value = results[idx];
-      console.log(value);
       // if (f.outputs.length == 1 && f.outputs[0].type.startsWith('bytes')) {
         // value = this.web3.toUtf8(value);
       // }
       output[name] = value;
     });
     output.balance = 0;
-    console.log(output);
     return output;
   }.bind(this));
 };
