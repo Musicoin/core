@@ -8,7 +8,7 @@ const Web3 = require('web3');
 function ComponentRegistry(config) {
   this.web3 = new Web3();
   this.web3.setProvider(new this.web3.providers.HttpProvider(config.web3Url));
-  this.web3Reader = new Web3Reader(this.web3);
+  this.web3Reader = new Web3Reader(this.web3, config);
   this.web3Writer = new Web3Writer(this.web3Reader, config.maxCoinsPerPlay);
   this.artistModule = new ArtistModule(this.web3Reader, this.web3Writer, config.maxCoinsPerPlay);
   this.licenseModule = new LicenseModule(this.web3Reader, this.web3Writer);

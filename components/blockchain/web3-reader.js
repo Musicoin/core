@@ -32,8 +32,9 @@ Web3Reader.FunctionTypes = FunctionTypes;
 
 const knownContracts = [];
 
-function Web3Reader(web3) {
+function Web3Reader(web3, config) {
   this.web3 = web3;
+  this.config = config;
 
   this.txTypeMapping = {};
   // *** RW: tip() function call needs to send musicoin as uint256. Does it need updating with parameter here?
@@ -212,7 +213,7 @@ Web3Reader.prototype.loadContractAndFields = function(address, abi, fields, outp
 
 // *** RW: This needs to call the musicoin contract, not web3
 Web3Reader.prototype.getBalanceInMusicoins = function(address) {
-  const musicContract = new this.web3.eth.Contract(musicAbi, '0x26B7981176e21e251668Db685F871c3Ecb57D6C7');
+  const musicContract = new this.web3.eth.Contract(musicAbi, this.config.tokenAddress);
   return musicContract.methods.balanceOf(address).call()
       .then((weiBalance) => this.web3.utils.fromWei(weiBalance, 'ether'));
 };

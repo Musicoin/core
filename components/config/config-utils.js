@@ -90,6 +90,7 @@ function getDefaultKeyValueConfig() {
         maxCoinsPerPlay: env.MAX_COINS_PER_PLAY || 1,
         rewardMax: env.REWARD_MAX || 250,
         rewardMin: env.REWARD_MIN || 50,
+        tokenAddress: env.TOKEN_ADDRESS || "0x26B7981176e21e251668Db685F871c3Ecb57D6C7",
         isDev: true
       };
     });
