@@ -80,17 +80,17 @@ Web3Reader.prototype.loadLicense = function(licenseAddress) {
         const licensePromise = this.loadContract(licenseAddress, pppAbi);
         // extracting the arrays takes some extra work
         const c = Promise.promisifyAll(contract);
-        //ToDo: fix contributors
-        const contributorPromise = ArrayUtils.extractAddressAndValues(c.contributors, c.contributorShares, 'shares');
-        const royaltyPromise = ArrayUtils.extractAddressAndValues(c.royalties, c.royaltyAmounts, 'amount');
+        //ToDo: check whether we need royalties because it doesn't exist in the contract
+        const contributorPromise = ArrayUtils.extractAddressAndValues(c.methods.contributors, c.methods.contributorShares, 'shares');
+        const royaltyPromise = ArrayUtils.extractAddressAndValues(c.methods.royalties, c.methods.royaltyAmounts, 'amount');
         return Promise.join(licensePromise, contributorPromise, royaltyPromise,
             function(licenseObject, contributors, royalties) {
               licenseObject.contributors = contributors;
               licenseObject.royalties = royalties;
 
               // for convenience, do the conversion to "coins" from wei
-              // licenseObject.coinsPerPlay = this.web3.utils.fromWei(licenseObject.weiPerPlay, 'ether');
-              // licenseObject.totalEarnedCoins = this.web3.utils.fromWei(licenseObject.totalEarned, 'ether');
+              licenseObject.coinsPerPlay = this.web3.utils.fromWei(licenseObject.musicPerPlay, 'ether');
+              licenseObject.totalEarnedCoins = this.web3.utils.fromWei(licenseObject.totalEarned, 'ether');
               licenseObject.address = licenseAddress;
               return licenseObject;
             }.bind(this));
@@ -211,7 +211,6 @@ Web3Reader.prototype.loadContractAndFields = function(address, abi, fields, outp
   }.bind(this));
 };
 
-// *** RW: This needs to call the musicoin contract, not web3
 Web3Reader.prototype.getBalanceInMusicoins = function(address) {
   const musicContract = new this.web3.eth.Contract(musicAbi, this.config.tokenAddress);
   return musicContract.methods.balanceOf(address).call()

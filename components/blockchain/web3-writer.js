@@ -134,12 +134,12 @@ Web3Writer.prototype.ppp = function (licenseAddress, credentialsProvider) {
           throw new Error(`license exceeds max coins per play, ${license.coinsPerPlay} > ${this.maxCoinsPerPlay}`)
         }
         const contract = this.web3Reader.getLicenseContractInstance(licenseAddress);
-        // *** RW: const params = { from: sender, value: license.weiPerPlay, gas: 940000 };
+        // *** RW: const params = { from: sender, value: license.musicPerPlay, gas: 940000 };
         const params = { from: sender, gas: 940000 };
         return new Promise(function (resolve, reject) {
           //noinspection JSCheckFunctionSignatures
           // *** RW: Payment is being sent by the value field but it will automatically be taken by the contract in Skale.  This needs testing for spending approval by the factory
-          // *** RW: Should play() be changed to accept a value, license.weiPerPlay, or left to handle this internally without the user?  Approval for the factory to spend coin is needed
+          // *** RW: Should play() be changed to accept a value, license.musicPerPlay, or left to handle this internally without the user?  Approval for the factory to spend coin is needed
           contract.play(params, function (err, tx) {
             if (err) reject(err);
             else resolve(tx);
@@ -207,7 +207,7 @@ Web3Writer.prototype.releaseLicense = function (releaseRequest, credentialsProvi
     contributors: releaseRequest.contributors.map(r => r.address),
     contributorShares: releaseRequest.contributors.map(r => r.shares),
     // *** RW: This should be UBI of 1 and not set by the artist
-    weiPerPlay: this.toIndivisibleUnits(releaseRequest.coinsPerPlay),
+    musicPerPlay: this.toIndivisibleUnits(releaseRequest.coinsPerPlay),
   });
 
   return this.releaseContract(contractDefinition, params, credentialsProvider);
@@ -218,7 +218,7 @@ Web3Writer.prototype.updatePPPLicense = function (releaseRequest, credentialsPro
   // *** RW: Contract version update
   const contractDefinition = this.web3Reader.getContractDefinition(Web3Reader.ContractTypes.PPP, "v1.20210924");
   const contract = this.web3Reader.getContractAt(contractDefinition.abi, releaseRequest.contractAddress);
-  releaseRequest.weiPerPlay = this.toIndivisibleUnits(releaseRequest.coinsPerPlay);
+  releaseRequest.musicPerPlay = this.toIndivisibleUnits(releaseRequest.coinsPerPlay);
   return this.web3Reader.loadLicense(releaseRequest.contractAddress)
       .then(license => {
         return this.unlockAccount(credentialsProvider)
@@ -243,9 +243,9 @@ Web3Writer.prototype.updatePPPLicense = function (releaseRequest, credentialsPro
 
               const distributionUpdate = !ArrayUtils.equals(newContributors, oldContributors)
               || !ArrayUtils.equals(newShares, oldShares)
-              || license.weiPerPlay != releaseRequest.weiPerPlay
+              || license.musicPerPlay != releaseRequest.musicPerPlay
                   ? contract.updateLicenseAsync(
-                      releaseRequest.weiPerPlay,
+                      releaseRequest.musicPerPlay,
                       newContributors,
                       newShares,
                       { from: account, gas: 240000 })

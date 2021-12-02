@@ -13,7 +13,7 @@
     "owner": "0x6cf4e1d23f69d9a7df1e3e8b3f7f674c7c93a1fd",
     "playCount": "116",
     "contractVersion": "v0.2",
-    "weiPerPlay": "1000000000000000000",
+    "musicPerPlay": "1000000000000000000",
     "totalTipped": "35000000000000000000",
     "metadataUrl": "ipfs://QmNX8RAxz2hk5nUgjhVmMJCsvUGiESQ16netc7Yv4hs7Lz",
     "tipCount": "35",

@@ -2,7 +2,7 @@
   "address": "0x92e853935f8588956057ba87866fc6d58c82ba72",
   "contract_id": "0x92e853935f8588956057ba87866fc6d58c82ba72",
   "workAddress": "0xe14c33a455cec4219de1dbdf33b9dedf8890fa20",
-  "weiPerPlay": "1000000000000000000",
+  "musicPerPlay": "1000000000000000000",
   "coinsPerPlay": "1",
   "tipCount": "0",
   "totalEarned": "3000000000000000000",

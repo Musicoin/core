@@ -7,8 +7,8 @@ const Promise = require('bluebird');
 
 const extractArray = function(provider, length) {
   const promises = [];
-  for (let idx=0; idx < length; idx++) {
-    promises.push(provider(idx));
+  for (let idx = 0; idx < length; idx++) {
+    promises.push(provider(idx).call());
   }
   return Promise.all(promises);
 };
@@ -17,18 +17,19 @@ const extractAddressArray = function(provider, startIdx, result) {
   return new Promise(function(resolve, reject) {
     const output = result || [];
     const idx = startIdx || 0;
-    provider(idx)
-      .bind(this)
-      .then(function(value) {
-        if (value != "0x") {
-          output.push(value);
-          resolve(extractAddressArray(provider, idx+1, output));
-        }
-        else {
-          resolve(output);
-        }
-      });
-  })
+    provider(idx).call()
+        .then(function(value) {
+          if (value) {
+            output.push(value);
+            resolve(extractAddressArray(provider, idx + 1, output));
+          } else {
+            resolve(output);
+          }
+        })
+        .catch(function() {
+           resolve(output);
+        });
+  });
 };
 
 const extractAddressAndValues = function(addressArray, valueArray, valueName) {
@@ -36,25 +37,25 @@ const extractAddressAndValues = function(addressArray, valueArray, valueName) {
   if (!addressArray) return Promise.resolve([]);
 
   return extractAddressArray(addressArray, 0)
-    .then(function(addresses) {
-      ctx.addresses = addresses;
-      return extractArray(valueArray, addresses.length);
-    })
-    .then(function(values) {
-      return ctx.addresses.map(function(address, idx) {
-        const output = {};
-        output["address"] = address;
-        output[valueName] = values[idx];
-        return output;
+      .then(function(addresses) {
+        ctx.addresses = addresses;
+        return extractArray(valueArray, addresses.length);
+      })
+      .then(function(values) {
+        return ctx.addresses.map(function(address, idx) {
+          const output = {};
+          output['address'] = address;
+          output[valueName] = values[idx];
+          return output;
+        });
       });
-    });
 };
 
 const equals = function(array1, array2) {
   if (array1 && !array2) return false;
   if (!array1 && array2) return false;
   if (array1.length != array2.length) return false;
-  for (var i = 0, l=array1.length; i < l; i++) {
+  for (var i = 0, l = array1.length; i < l; i++) {
     if (array1[i] != array2[i]) return false;
   }
   return true;

@@ -46,7 +46,7 @@ jsonRouter.get('/ppp/:address', (req, res) => {
 
   return Promise.join(l, k, function(license, keyResult) {
     context.output = keyResult;
-    return accountManager.pay(req.user.clientID, license.weiPerPlay);
+    return accountManager.pay(req.user.clientID, license.musicPerPlay);
   })
     .then(function() {
       return licenseModule.ppp(req.params.address, paymentAccountCredentialsProvider);
