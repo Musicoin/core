@@ -4,7 +4,7 @@ const fs = require('fs');
 // *** RW: Update to new .abi ideally using a config file
 const pppAbi = require(__dirname + '/../../solidity/v1.20210924/PayPerPlay_ABI.json');
 const musicAbi = require(__dirname + '/../../solidity/v1.20210924/MUSIC_Schain_ABI.json');
-const artistAbi = JSON.parse(fs.readFileSync(__dirname + '/../../solidity/v1.20210924/Artist.sol.abi'));
+const artistAbi = require(__dirname + '/../../solidity/v1.20210924/Artist_ABI.json');
 const SolidityUtils = require('./solidity-utils');
 
 const TxTypes = Object.freeze({
