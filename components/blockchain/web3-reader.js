@@ -3,6 +3,7 @@ const ArrayUtils = require('./array-utils');
 const fs = require('fs');
 // *** RW: Update to new .abi ideally using a config file
 const pppAbi = require(__dirname + '/../../solidity/v1.20210924/PayPerPlay_ABI.json');
+const musicAbi = require(__dirname + '/../../solidity/v1.20210924/MUSIC_Schain_ABI.json');
 const artistAbi = JSON.parse(fs.readFileSync(__dirname + '/../../solidity/v1.20210924/Artist.sol.abi'));
 const SolidityUtils = require('./solidity-utils');
 
@@ -54,9 +55,6 @@ function Web3Reader(web3) {
   // this.pppV1_20210924 = SolidityUtils.loadContractDefinition(this.web3.sha3, __dirname + '/../../solidity/v1.20210924/PayPerPlay.json');
   // this.artistV1_20210924 = SolidityUtils.loadContractDefinition(this.web3.sha3, __dirname + '/../../solidity/v1.20210924/Artist.json');
 
-  // *** RW: This needs to be rewritten to work with Musicoin instead of eth balance
-  this.getBalanceAsync = Promise.promisify(() => 0);
-
   // *** RW: This is built to support all versions of contracts in production.  Push any new versions here.  Old ones removed for the migration launch
   // knownContracts.push(this.pppV1_20210924);
   // knownContracts.push(this.artistV1_20210924);
@@ -81,7 +79,7 @@ Web3Reader.prototype.loadLicense = function(licenseAddress) {
         const licensePromise = this.loadContract(licenseAddress, pppAbi);
         // extracting the arrays takes some extra work
         const c = Promise.promisifyAll(contract);
-        //ToDo: fix contributors and add balance
+        //ToDo: fix contributors
         const contributorPromise = ArrayUtils.extractAddressAndValues(c.contributors, c.contributorShares, 'shares');
         const royaltyPromise = ArrayUtils.extractAddressAndValues(c.royalties, c.royaltyAmounts, 'amount');
         return Promise.join(licensePromise, contributorPromise, royaltyPromise,
@@ -196,31 +194,31 @@ Web3Reader.prototype.loadContractAndFields = function(address, abi, fields, outp
         });
   });
 
-  // *** RW: This needs to call the musicoin contract, not web3
   const fieldPromises = Promise.all(promises);
-  return Promise.join(fieldPromises, function(results) {
+  return Promise.join(this.getBalanceInMusicoins(address), fieldPromises, function(balance, results) {
     const output = outputObject || {};
     fields.forEach((f, idx) => {
       const name = f.name;
       let value = results[idx];
       // if (f.outputs.length == 1 && f.outputs[0].type.startsWith('bytes')) {
-        // value = this.web3.toUtf8(value);
+      // value = this.web3.toUtf8(value);
       // }
       output[name] = value;
     });
-    output.balance = 0;
+    output.balance = balance;
     return output;
   }.bind(this));
 };
 
 // *** RW: This needs to call the musicoin contract, not web3
 Web3Reader.prototype.getBalanceInMusicoins = function(address) {
-  return this.getBalanceAsync(address)
-      .then((weiBalance) => 0);
+  const musicContract = new this.web3.eth.Contract(musicAbi, '0x26B7981176e21e251668Db685F871c3Ecb57D6C7');
+  return musicContract.methods.balanceOf(address).call()
+      .then((weiBalance) => this.web3.utils.fromWei(weiBalance, 'ether'));
 };
 
 Web3Reader.prototype.convertWeiToMusicoins = function(weiAmount) {
-  return this.web3.fromWei(weiAmount, 'ether');
+  return this.web3.utils.fromWei(weiAmount, 'ether');
 };
 
 Web3Reader.prototype.getConstantFields = function(abi) {
