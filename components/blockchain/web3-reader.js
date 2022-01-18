@@ -1,11 +1,9 @@
 const Promise = require('bluebird');
 const ArrayUtils = require('./array-utils');
-const fs = require('fs');
-// *** RW: Update to new .abi ideally using a config file
+
 const pppAbi = require(__dirname + '/../../solidity/v1.20210924/PayPerPlay_ABI.json');
 const musicAbi = require(__dirname + '/../../solidity/v1.20210924/MUSIC_Schain_ABI.json');
 const artistAbi = require(__dirname + '/../../solidity/v1.20210924/Artist_ABI.json');
-const SolidityUtils = require('./solidity-utils');
 
 const TxTypes = Object.freeze({
   FUNCTION: 'function',
@@ -154,15 +152,15 @@ Web3Reader.prototype.getTransactionReceipt = function(tx) {
 };
 
 Web3Reader.prototype.getLicenseContractInstance = function(licenseAddress) {
-  return this.web3.eth.contract(pppAbi).at(licenseAddress);
+  return new this.web3.eth.Contract(pppAbi, licenseAddress);
 };
 
 Web3Reader.prototype.getArtistContractInstance = function(profileAddress) {
-  return this.web3.eth.contract(this.artistV1_20210924.abi).at(profileAddress);
+  return new this.web3.eth.Contract(artistAbi, profileAddress);
 };
 
 Web3Reader.prototype.getContractAt = function(abi, address) {
-  return Promise.promisifyAll(this.web3.eth.contract(abi).at(address));
+  return Promise.promisifyAll(new this.web3.eth.Contract(abi, address));
 };
 
 /*
@@ -229,6 +227,8 @@ Web3Reader.prototype.getConstantFields = function(abi) {
 Web3Reader.prototype.waitForTransaction = function(expectedTx) {
   return new Promise(function(resolve, reject) {
     let count = 0;
+
+    //Todo: replace web3.eth.filter with web3.eth.subscribe (I think)
     const filter = this.web3.eth.filter('latest');
     filter.watch(function(error, result) {
       if (error) console.log('Error: ' + error);
